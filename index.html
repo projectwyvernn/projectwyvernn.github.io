@@ -1,176 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Wyvern</title>
+  <link rel="icon" type="image/png" href="wyvern.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── INDEX-SPECIFIC ── */
 
-    <title>Project:Wyvern</title>
+    .hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--black);
+    }
 
-    <!-- Replace favicon.png with your actual favicon file -->
-    <link rel="icon" type="image/png" href="images/wyvern.png">
+    .hero-eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
 
-    <style>
-        :root {
-            --bg: #ffffff;
-            --fg: #000000;
-            --border: #000000;
-        }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      max-width: 700px;
+      margin-bottom: 24px;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
 
-        html, body {
-            background: var(--bg);
-            color: var(--fg);
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-            font-size: 14px;
-            line-height: 1.5;
-            height: 100%;
-        }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    /* ── FACTIONS GRID ── */
+    .factions-section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--light-rule);
+    }
 
-        /* Header */
+    .factions-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border: 1px solid var(--black);
+      margin-top: 24px;
+    }
 
-        header {
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
-        }
+    .faction-card {
+      padding: 24px 16px;
+      border-right: 1px solid var(--black);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background 0.15s;
+      cursor: default;
+    }
 
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 24px;
-        }
+    .faction-card:last-child {
+      border-right: none;
+    }
 
-        .brand {
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
+    .faction-card:hover {
+      background: var(--accent-bg);
+    }
 
-        nav {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
+    .faction-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
 
-        /* Links intentionally left mostly unstyled */
-        a {
-            color: inherit;
-        }
+    .faction-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
-        /* Main */
+    .faction-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 300;
+    }
 
-        main {
-            flex: 1;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 24px;
-        }
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      padding: 56px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      border-bottom: 1px solid var(--light-rule);
+      align-items: start;
+    }
 
-        .hero {
-            border: 1px solid var(--border);
-            padding: 40px;
-            margin-bottom: 32px;
-            min-height: 220px;
-        }
+    .about-strip h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
+    .about-strip p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
 
-        .panel {
-            border: 1px solid var(--border);
-            padding: 24px;
-            min-height: 180px;
-        }
+    /* ── RECRUITMENT BANNER ── */
+    .recruit-banner {
+      padding: 56px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
 
-        /* Footer */
+    .recruit-banner h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      max-width: 440px;
+    }
 
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 16px 24px;
-        }
+    .recruit-banner p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+      max-width: 380px;
+    }
 
-        .footer-row {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-    </style>
+    /* ── NEWS SECTION ── */
+    .news-section {
+      padding: 56px 0;
+      border-top: 1px solid var(--light-rule);
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--black);
+      margin-top: 24px;
+    }
+
+    .news-item {
+      padding: 28px 24px;
+      border-right: 1px solid var(--black);
+    }
+
+    .news-item:last-child {
+      border-right: none;
+    }
+
+    .news-date {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .news-headline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .news-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .news-tag {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+      padding: 2px 8px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .factions-grid { grid-template-columns: repeat(4, 1fr); }
+      .faction-card { border-bottom: 1px solid var(--black); }
+      .about-strip { grid-template-columns: 1fr; gap: 32px; }
+      .news-grid { grid-template-columns: 1fr; }
+      .news-item { border-right: none; border-bottom: 1px solid var(--black); }
+      .news-item:last-child { border-bottom: none; }
+    }
+
+    @media (max-width: 600px) {
+      .factions-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-row">
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="wyvern.png" alt="Wyvern Emblem" class="logo" />
+        <img src="wyverntext.png" alt="Project Wyvern" class="wordmark" />
+      </div>
+    </div>
+    <div class="faction-bar">
+      <div class="faction-bar-inner">
+        <span class="faction-tag">Ground</span>
+        <span class="faction-tag">Aid</span>
+        <span class="faction-tag">Intelligence</span>
+        <span class="faction-tag">Energy</span>
+        <span class="faction-tag">Worker</span>
+        <span class="faction-tag">Command</span>
+        <span class="faction-tag">Enforcement</span>
+      </div>
+    </div>
+  </header>
 
-            <div class="brand">
-                <!-- Site Identifier -->
-            </div>
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="forum.html">Forums</a></li>
+      <li><a href="chats.html">Chats</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li class="nav-right"><a href="#signup">Sign Up</a></li>
+    </ul>
+  </nav>
 
-            <nav>
-                <a href="/home.html"></a>
-                <a href="/directory.html"></a>
-                <a href="/records.html"></a>
-                <a href="/etc.html"></a>
-            </nav>
+  <!-- MAIN -->
+  <main>
 
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero-eyebrow">Classified Network — Project Wyvern</p>
+      <h1>Organized.<br/>Informed.<br/>Coordinated.</h1>
+      <p class="hero-sub">A structured platform for faction communication, political coordination, and the distribution of critical intelligence across all seven divisions.</p>
+      <div class="hero-actions">
+        <a href="#signup" class="btn btn-filled">Request Access</a>
+        <a href="forum.html" class="btn">Browse Forums</a>
+      </div>
+    </section>
+
+    <!-- FACTIONS -->
+    <section class="factions-section">
+      <p class="section-label">Divisions — Seven Factions</p>
+      <div class="factions-grid">
+        <div class="faction-card">
+          <span class="faction-number">F-01</span>
+          <span class="faction-name">Ground</span>
+          <span class="faction-desc">Field operations and territorial coordination.</span>
         </div>
-    </header>
-
-    <main>
-
-        <section class="hero">
-            <!-- Primary Content Area -->
-        </section>
-
-        <section class="grid">
-
-            <article class="panel">
-                <!-- Panel A -->
-            </article>
-
-            <article class="panel">
-                <!-- Panel B -->
-            </article>
-
-            <article class="panel">
-                <!-- Panel C -->
-            </article>
-
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="footer-row">
-
-            <div>
-                <!-- Footer Left -->
-            </div>
-
-            <div>
-                <!-- Footer Right -->
-            </div>
-
+        <div class="faction-card">
+          <span class="faction-number">F-02</span>
+          <span class="faction-name">Aid</span>
+          <span class="faction-desc">Relief, medical support, and resource distribution.</span>
         </div>
-    </footer>
+        <div class="faction-card">
+          <span class="faction-number">F-03</span>
+          <span class="faction-name">Intelligence</span>
+          <span class="faction-desc">Information gathering, analysis, and classified reporting.</span>
+        </div>
+        <div class="faction-card">
+          <span class="faction-number">F-04</span>
+          <span class="faction-name">Energy</span>
+          <span class="faction-desc">Infrastructure, power, and strategic resource management.</span>
+        </div>
+        <div class="faction-card">
+          <span class="faction-number">F-05</span>
+          <span class="faction-name">Worker</span>
+          <span class="faction-desc">Logistics, labor coordination, and production oversight.</span>
+        </div>
+        <div class="faction-card">
+          <span class="faction-number">F-06</span>
+          <span class="faction-name">Command</span>
+          <span class="faction-desc">Leadership, strategic planning, and inter-faction authority.</span>
+        </div>
+        <div class="faction-card">
+          <span class="faction-number">F-07</span>
+          <span class="faction-name">Enforcement</span>
+          <span class="faction-desc">Order, compliance, and internal security protocol.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-strip">
+      <div>
+        <h2>What is Project Wyvern?</h2>
+        <p>Project Wyvern is a unified coordination network designed to connect individuals across seven structured factions. It serves as a hub for political discussion, internal news, and classified intelligence distribution.</p>
+        <p>Access is tiered by faction and clearance level. All activity within the network is logged and monitored by Command.</p>
+        <a href="#signup" class="btn" style="margin-top:16px;">Apply for Membership</a>
+      </div>
+      <div>
+        <p class="section-label">Network Status</p>
+        <div style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+          <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--light-rule);">
+            <span style="font-size:13px; font-family:'Space Grotesk',sans-serif; font-weight:500;">Active Members</span>
+            <span style="font-size:13px; color:var(--muted);">— classified —</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--light-rule);">
+            <span style="font-size:13px; font-family:'Space Grotesk',sans-serif; font-weight:500;">Factions Operational</span>
+            <span style="font-size:13px; color:var(--muted);">7 / 7</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--light-rule);">
+            <span style="font-size:13px; font-family:'Space Grotesk',sans-serif; font-weight:500;">Network Classification</span>
+            <span style="font-size:13px; color:var(--muted);">Restricted</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:14px 0;">
+            <span style="font-size:13px; font-family:'Space Grotesk',sans-serif; font-weight:500;">Flag Status</span>
+            <span style="font-size:13px; color:var(--muted);">Ratified</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LATEST BULLETINS -->
+    <section class="news-section">
+      <p class="section-label">Latest Bulletins</p>
+      <div class="news-grid">
+        <div class="news-item">
+          <p class="news-date">2026 — 001</p>
+          <p class="news-headline">Network Launch: All Factions Now Online</p>
+          <p class="news-body">The primary coordination network has been established. All seven factions now have designated channels and access points within the system.</p>
+          <span class="news-tag">Command</span>
+        </div>
+        <div class="news-item">
+          <p class="news-date">2026 — 002</p>
+          <p class="news-headline">Recruitment Phase Initiated</p>
+          <p class="news-body">Applications are now open across all faction levels. Prospective members must declare a primary faction upon registration.</p>
+          <span class="news-tag">General</span>
+        </div>
+        <div class="news-item">
+          <p class="news-date">2026 — 003</p>
+          <p class="news-headline">Intelligence Briefing — Pending Clearance</p>
+          <p class="news-body">A classified intelligence report has been filed. Clearance level F-03 or above required for full access. Summary available to all members.</p>
+          <span class="news-tag">Intelligence</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECRUITMENT CTA -->
+    <section class="recruit-banner" id="signup">
+      <div>
+        <h2>Join a Faction. Serve the Network.</h2>
+        <p>Applications are reviewed by Command. Choose your division, state your purpose, and request access.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px; min-width:260px;">
+        <input type="text" placeholder="Full name" style="border:1.5px solid var(--black); padding:12px 16px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--white); width:100%;" />
+        <input type="email" placeholder="Contact email" style="border:1.5px solid var(--black); padding:12px 16px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--white); width:100%;" />
+        <select style="border:1.5px solid var(--black); padding:12px 16px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--white); width:100%; appearance:none; cursor:pointer;">
+          <option value="">Select a faction</option>
+          <option>Ground — F-01</option>
+          <option>Aid — F-02</option>
+          <option>Intelligence — F-03</option>
+          <option>Energy — F-04</option>
+          <option>Worker — F-05</option>
+          <option>Command — F-06</option>
+          <option>Enforcement — F-07</option>
+        </select>
+        <button class="btn btn-filled" style="width:100%; font-size:12px;">Submit Application</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="forum.html">Forums</a></li>
+          <li><a href="chats.html">Chats</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Factions</h4>
+        <ul>
+          <li><a href="#">Ground (F-01)</a></li>
+          <li><a href="#">Aid (F-02)</a></li>
+          <li><a href="#">Intelligence (F-03)</a></li>
+          <li><a href="#">Energy (F-04)</a></li>
+          <li><a href="#">Worker (F-05)</a></li>
+          <li><a href="#">Command (F-06)</a></li>
+          <li><a href="#">Enforcement (F-07)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@projectwyvern.net">contact@projectwyvern.net</a></li>
+          <li><a href="mailto:command@projectwyvern.net">command@projectwyvern.net</a></li>
+          <li><a href="mailto:intel@projectwyvern.net">intel@projectwyvern.net</a></li>
+          <li><a href="#signup">Sign Up</a></li>
+          <li><a href="forum.html">Forums</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>project:wyvern &nbsp;—&nbsp; All communications monitored. Unauthorized access prohibited.</p>
+      <p>© 2026 Project Wyvern Network</p>
+    </div>
+  </footer>
 
 </body>
 </html>
