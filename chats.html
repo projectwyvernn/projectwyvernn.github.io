@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chats — Project Wyvern</title>
+  <link rel="icon" type="image/png" href="wyvern.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      border: 1.5px solid var(--black);
+      min-height: 560px;
+    }
+
+    /* Sidebar */
+    .chat-sidebar {
+      border-right: 1.5px solid var(--black);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-sidebar-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--black);
+      background: var(--accent-bg);
+    }
+
+    .chat-sidebar-header h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .chat-sidebar-search {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--light-rule);
+    }
+
+    .chat-sidebar-search input {
+      width: 100%;
+      border: 1px solid var(--light-rule);
+      padding: 8px 12px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      background: var(--white);
+    }
+
+    .chat-channel {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--light-rule);
+      cursor: pointer;
+      transition: background 0.12s;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .chat-channel:hover,
+    .chat-channel.active {
+      background: var(--accent-bg);
+    }
+
+    .chat-channel.active {
+      border-left: 2px solid var(--black);
+    }
+
+    .channel-dot {
+      width: 8px;
+      height: 8px;
+      border: 1.5px solid var(--muted);
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+
+    .channel-dot.online {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .channel-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .channel-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .channel-faction {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.08em;
+    }
+
+    .channel-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      background: var(--black);
+      color: var(--white);
+      padding: 1px 5px;
+      flex-shrink: 0;
+    }
+
+    /* Chat window */
+    .chat-window {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-window-header {
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--black);
+      background: var(--accent-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chat-window-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .chat-window-header span {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.1em;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-height: 380px;
+      justify-content: flex-end;
+    }
+
+    .chat-auth-notice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 12px;
+      color: var(--muted);
+      text-align: center;
+      min-height: 380px;
+    }
+
+    .chat-auth-notice p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .chat-input-row {
+      border-top: 1px solid var(--black);
+      padding: 14px 24px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      border: 1.5px solid var(--black);
+      padding: 11px 16px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      background: var(--white);
+    }
+
+    .chat-input-row input:disabled {
+      background: var(--accent-bg);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .chat-section-label {
+      padding: 6px 18px;
+      background: var(--white);
+      border-bottom: 1px solid var(--light-rule);
+    }
+
+    .chat-section-label span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 700px) {
+      .chat-layout { grid-template-columns: 1fr; }
+      .chat-sidebar { border-right: none; border-bottom: 1.5px solid var(--black); max-height: 220px; overflow-y: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="wyvern.png" alt="Wyvern Emblem" class="logo" />
+        <img src="wyverntext.png" alt="Project Wyvern" class="wordmark" />
+      </div>
+    </div>
+    <div class="faction-bar">
+      <div class="faction-bar-inner">
+        <span class="faction-tag">Ground</span>
+        <span class="faction-tag">Aid</span>
+        <span class="faction-tag">Intelligence</span>
+        <span class="faction-tag">Energy</span>
+        <span class="faction-tag">Worker</span>
+        <span class="faction-tag">Command</span>
+        <span class="faction-tag">Enforcement</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="forum.html">Forums</a></li>
+      <li><a href="chats.html" class="active">Chats</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li class="nav-right"><a href="index.html#signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <div class="page-title-block">
+      <p class="section-label">project:wyvern — Live Channels</p>
+      <h1>Network Chats</h1>
+      <p>Faction-specific and cross-division live communication channels. Authentication required to participate.</p>
+    </div>
+
+    <div class="chat-layout">
+
+      <!-- SIDEBAR -->
+      <div class="chat-sidebar">
+        <div class="chat-sidebar-header">
+          <h3>Channels</h3>
+        </div>
+        <div class="chat-sidebar-search">
+          <input type="search" placeholder="Search channels…" />
+        </div>
+
+        <div class="chat-section-label"><span>General</span></div>
+
+        <a href="#" class="chat-channel active">
+          <span class="channel-dot online"></span>
+          <div class="channel-info">
+            <div class="channel-name"># general</div>
+            <div class="channel-faction">All Members</div>
+          </div>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot online"></span>
+          <div class="channel-info">
+            <div class="channel-name"># announcements</div>
+            <div class="channel-faction">Command</div>
+          </div>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># political-talk</div>
+            <div class="channel-faction">All Members</div>
+          </div>
+        </a>
+
+        <div class="chat-section-label"><span>Factions</span></div>
+
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># ground</div>
+            <div class="channel-faction">F-01</div>
+          </div>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># aid</div>
+            <div class="channel-faction">F-02</div>
+          </div>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># intelligence</div>
+            <div class="channel-faction">F-03</div>
+          </div>
+          <span class="channel-badge">🔒</span>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># energy</div>
+            <div class="channel-faction">F-04</div>
+          </div>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># worker</div>
+            <div class="channel-faction">F-05</div>
+          </div>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># command</div>
+            <div class="channel-faction">F-06</div>
+          </div>
+          <span class="channel-badge">🔒</span>
+        </a>
+        <a href="#" class="chat-channel">
+          <span class="channel-dot"></span>
+          <div class="channel-info">
+            <div class="channel-name"># enforcement</div>
+            <div class="channel-faction">F-07</div>
+          </div>
+          <span class="channel-badge">🔒</span>
+        </a>
+
+      </div>
+
+      <!-- CHAT WINDOW -->
+      <div class="chat-window">
+        <div class="chat-window-header">
+          <h2># general</h2>
+          <span>All Members &nbsp;·&nbsp; Open Channel</span>
+        </div>
+
+        <div class="chat-auth-notice">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="20" height="14" rx="0" stroke="#6b6b6b" stroke-width="1.5"/>
+            <path d="M10 14V10C10 7.79 12.69 6 16 6C19.31 6 22 7.79 22 10V14" stroke="#6b6b6b" stroke-width="1.5"/>
+            <circle cx="16" cy="21" r="2" fill="#6b6b6b"/>
+          </svg>
+          <p>Authentication required</p>
+          <p style="font-size:12px; text-transform:none; letter-spacing:0; color:var(--muted); font-family:'Inter',sans-serif; font-weight:300; max-width:260px;">You must be a registered member of Project Wyvern to participate in live chats.</p>
+          <a href="index.html#signup" class="btn" style="margin-top:8px; font-size:11px;">Request Access</a>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" placeholder="Authentication required to send messages…" disabled />
+          <button class="btn" style="font-size:11px; padding:11px 20px;" disabled>Send</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="forum.html">Forums</a></li>
+          <li><a href="chats.html">Chats</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Factions</h4>
+        <ul>
+          <li><a href="#">Ground (F-01)</a></li>
+          <li><a href="#">Aid (F-02)</a></li>
+          <li><a href="#">Intelligence (F-03)</a></li>
+          <li><a href="#">Energy (F-04)</a></li>
+          <li><a href="#">Worker (F-05)</a></li>
+          <li><a href="#">Command (F-06)</a></li>
+          <li><a href="#">Enforcement (F-07)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@projectwyvern.net">contact@projectwyvern.net</a></li>
+          <li><a href="mailto:command@projectwyvern.net">command@projectwyvern.net</a></li>
+          <li><a href="mailto:intel@projectwyvern.net">intel@projectwyvern.net</a></li>
+          <li><a href="index.html#signup">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>project:wyvern &nbsp;—&nbsp; All communications monitored. Unauthorized access prohibited.</p>
+      <p>© 2026 Project Wyvern Network</p>
+    </div>
+  </footer>
+
+</body>
+</html>

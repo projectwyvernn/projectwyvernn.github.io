@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --rule: #000000;
+  --muted: #6b6b6b;
+  --light-rule: #d8d8d8;
+  --accent-bg: #f5f5f5;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--white);
+  color: var(--black);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ── */
+header {
+  border-bottom: 1.5px solid var(--black);
+  padding: 0;
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 40px 20px;
+  gap: 10px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.header-brand img.logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-brand img.wordmark {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Faction clearance bar */
+.faction-bar {
+  width: 100%;
+  border-top: 1px solid var(--light-rule);
+  padding: 8px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+}
+
+.faction-bar-inner {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.faction-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 2px 14px;
+  border-right: 1px solid var(--light-rule);
+  white-space: nowrap;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.faction-tag:last-child {
+  border-right: none;
+}
+
+.faction-tag:hover {
+  color: var(--black);
+}
+
+/* ── NAV ── */
+nav {
+  border-bottom: 1px solid var(--black);
+  padding: 0 40px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+nav ul li a {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black);
+  padding: 14px 20px;
+  border-right: 1px solid var(--light-rule);
+  transition: background 0.15s;
+}
+
+nav ul li:first-child a {
+  border-left: 1px solid var(--light-rule);
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+nav ul li.nav-right {
+  margin-left: auto;
+}
+
+nav ul li.nav-right a {
+  border-left: 1px solid var(--light-rule);
+}
+
+/* ── MAIN CONTENT ── */
+main {
+  flex: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1.5px solid var(--black);
+  padding: 32px 40px;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.footer-col h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--light-rule);
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 6px;
+}
+
+.footer-col ul li a {
+  font-size: 13px;
+  color: var(--black);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s;
+}
+
+.footer-col ul li a:hover {
+  opacity: 0.5;
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--light-rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ── UTILITIES ── */
+.section-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.rule {
+  border: none;
+  border-top: 1px solid var(--light-rule);
+  margin: 40px 0;
+}
+
+.btn {
+  display: inline-block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 28px;
+  border: 1.5px solid var(--black);
+  color: var(--black);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.btn-filled {
+  background: var(--black);
+  color: var(--white);
+}
+
+.btn-filled:hover {
+  background: transparent;
+  color: var(--black);
+}
+
+/* ── PAGE TITLE BLOCK ── */
+.page-title-block {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--black);
+  margin-bottom: 48px;
+}
+
+.page-title-block h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.page-title-block p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 540px;
+}
+
+/* ── PLACEHOLDER / BLANK PAGE ── */
+.blank-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  border: 1px dashed var(--light-rule);
+  color: var(--muted);
+  text-align: center;
+  gap: 12px;
+}
+
+.blank-placeholder span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .header-inner { padding: 20px 20px 14px; }
+  nav { padding: 0 16px; }
+  nav ul li a { padding: 12px 12px; font-size: 11px; }
+  main { padding: 40px 20px; }
+  footer { padding: 24px 20px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .faction-bar { padding: 8px 16px; }
+}

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map — Project Wyvern</title>
+  <link rel="icon" type="image/png" href="wyvern.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Map page — intentionally sparse, ready for embedded content */
+
+    .map-container {
+      border: 1.5px solid var(--black);
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Drop your map image or iframe here */
+    .map-container img,
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      object-fit: cover;
+      border: none;
+    }
+
+    .map-placeholder-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      text-align: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .map-placeholder-text span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .map-placeholder-text p {
+      font-size: 12px;
+      font-weight: 300;
+      max-width: 240px;
+      line-height: 1.6;
+    }
+
+    /* Stats row below map */
+    .map-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1.5px solid var(--black);
+      border-top: none;
+      margin-bottom: 48px;
+    }
+
+    .stat-cell {
+      padding: 20px 24px;
+      border-right: 1px solid var(--black);
+    }
+
+    .stat-cell:last-child {
+      border-right: none;
+    }
+
+    .stat-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 300;
+    }
+
+    /* Faction reach section — placeholder for embedded images */
+    .reach-section {
+      margin-top: 0;
+    }
+
+    .reach-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border: 1.5px solid var(--black);
+      margin-top: 24px;
+    }
+
+    .reach-faction {
+      padding: 20px 14px;
+      border-right: 1px solid var(--black);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .reach-faction:last-child {
+      border-right: none;
+    }
+
+    .reach-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Placeholder image slot for faction reach images */
+    .reach-img-slot {
+      background: var(--accent-bg);
+      border: 1px dashed var(--light-rule);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reach-img-slot span {
+      font-size: 9px;
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Drop your faction images in here: */
+    .reach-img-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .reach-stat {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .reach-stat-label {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+    }
+
+    @media (max-width: 900px) {
+      .map-stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell:nth-child(3) { border-top: 1px solid var(--black); }
+      .stat-cell:nth-child(4) { border-top: 1px solid var(--black); border-right: none; }
+      .reach-grid { grid-template-columns: repeat(4, 1fr); }
+      .reach-faction { border-bottom: 1px solid var(--black); }
+    }
+
+    @media (max-width: 600px) {
+      .reach-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="wyvern.png" alt="Wyvern Emblem" class="logo" />
+        <img src="wyverntext.png" alt="Project Wyvern" class="wordmark" />
+      </div>
+    </div>
+    <div class="faction-bar">
+      <div class="faction-bar-inner">
+        <span class="faction-tag">Ground</span>
+        <span class="faction-tag">Aid</span>
+        <span class="faction-tag">Intelligence</span>
+        <span class="faction-tag">Energy</span>
+        <span class="faction-tag">Worker</span>
+        <span class="faction-tag">Command</span>
+        <span class="faction-tag">Enforcement</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="forum.html">Forums</a></li>
+      <li><a href="chats.html">Chats</a></li>
+      <li><a href="map.html" class="active">Map</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li class="nav-right"><a href="index.html#signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <div class="page-title-block">
+      <p class="section-label">project:wyvern — Network Reach</p>
+      <h1>Operations Map</h1>
+      <p>Geographic distribution of active factions, field operations, and network reach. Statistics updated by Command.</p>
+    </div>
+
+    <!-- MAP EMBED ZONE -->
+    <!-- Replace the placeholder content inside .map-container with your map image or iframe -->
+    <div class="map-container">
+      <!-- EMBED YOUR MAP HERE — e.g.:
+        <img src="your-map.png" alt="Network Operations Map" />
+        or
+        <iframe src="https://your-map-embed-url"></iframe>
+      -->
+      <div class="map-placeholder-text">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="2" y="6" width="36" height="28" rx="0" stroke="#c0c0c0" stroke-width="1.5"/><path d="M2 14H38M14 6V34M26 6V34" stroke="#c0c0c0" stroke-width="1"/></svg>
+        <span>Map Pending</span>
+        <p>Embed your map image or interactive map here via the .map-container element.</p>
+      </div>
+    </div>
+
+    <!-- STATS ROW -->
+    <!-- Update these values as your network grows -->
+    <div class="map-stats">
+      <div class="stat-cell">
+        <div class="stat-label">Total Reach</div>
+        <div class="stat-value">—</div>
+        <div class="stat-sub">Active members</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Regions Active</div>
+        <div class="stat-value">—</div>
+        <div class="stat-sub">Geographic zones</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Factions Online</div>
+        <div class="stat-value">7</div>
+        <div class="stat-sub">All divisions</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Network Status</div>
+        <div class="stat-value" style="font-size:16px; padding-top:6px;">Operational</div>
+        <div class="stat-sub">As of 2026</div>
+      </div>
+    </div>
+
+    <!-- FACTION REACH -->
+    <section class="reach-section">
+      <p class="section-label">Faction Reach — By Division</p>
+      <div class="reach-grid">
+
+        <div class="reach-faction">
+          <span class="reach-name">Ground</span>
+          <!-- Drop a faction image here: <img src="ground-reach.png" alt="Ground reach" /> -->
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+        <div class="reach-faction">
+          <span class="reach-name">Aid</span>
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+        <div class="reach-faction">
+          <span class="reach-name">Intel</span>
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+        <div class="reach-faction">
+          <span class="reach-name">Energy</span>
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+        <div class="reach-faction">
+          <span class="reach-name">Worker</span>
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+        <div class="reach-faction">
+          <span class="reach-name">Command</span>
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+        <div class="reach-faction">
+          <span class="reach-name">Enforce</span>
+          <div class="reach-img-slot"><span>Image</span></div>
+          <div>
+            <div class="reach-stat">—</div>
+            <div class="reach-stat-label">members</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="forum.html">Forums</a></li>
+          <li><a href="chats.html">Chats</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Factions</h4>
+        <ul>
+          <li><a href="#">Ground (F-01)</a></li>
+          <li><a href="#">Aid (F-02)</a></li>
+          <li><a href="#">Intelligence (F-03)</a></li>
+          <li><a href="#">Energy (F-04)</a></li>
+          <li><a href="#">Worker (F-05)</a></li>
+          <li><a href="#">Command (F-06)</a></li>
+          <li><a href="#">Enforcement (F-07)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@projectwyvern.net">contact@projectwyvern.net</a></li>
+          <li><a href="mailto:command@projectwyvern.net">command@projectwyvern.net</a></li>
+          <li><a href="mailto:intel@projectwyvern.net">intel@projectwyvern.net</a></li>
+          <li><a href="index.html#signup">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>project:wyvern &nbsp;—&nbsp; All communications monitored. Unauthorized access prohibited.</p>
+      <p>© 2026 Project Wyvern Network</p>
+    </div>
+  </footer>
+
+</body>
+</html>

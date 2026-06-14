@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forums — Project Wyvern</title>
+  <link rel="icon" type="image/png" href="wyvern.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .forum-categories {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .forum-category {
+      border: 1px solid var(--black);
+      margin-bottom: -1px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: var(--accent-bg);
+      border-bottom: 1px solid var(--black);
+    }
+
+    .category-header h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .category-header .cat-faction {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--light-rule);
+      padding: 2px 8px;
+    }
+
+    .forum-thread {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--light-rule);
+      gap: 24px;
+      transition: background 0.12s;
+    }
+
+    .forum-thread:last-child {
+      border-bottom: none;
+    }
+
+    .forum-thread:hover {
+      background: var(--accent-bg);
+    }
+
+    .thread-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      text-decoration: none;
+      color: var(--black);
+      display: block;
+    }
+
+    .thread-meta {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .thread-stats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .thread-stats span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .thread-stats strong {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .forum-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .forum-toolbar input[type="search"] {
+      border: 1.5px solid var(--black);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      background: var(--white);
+      width: 260px;
+    }
+
+    .thread-locked {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+      padding: 2px 6px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="wyvern.png" alt="Wyvern Emblem" class="logo" />
+        <img src="wyverntext.png" alt="Project Wyvern" class="wordmark" />
+      </div>
+    </div>
+    <div class="faction-bar">
+      <div class="faction-bar-inner">
+        <span class="faction-tag">Ground</span>
+        <span class="faction-tag">Aid</span>
+        <span class="faction-tag">Intelligence</span>
+        <span class="faction-tag">Energy</span>
+        <span class="faction-tag">Worker</span>
+        <span class="faction-tag">Command</span>
+        <span class="faction-tag">Enforcement</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="forum.html" class="active">Forums</a></li>
+      <li><a href="chats.html">Chats</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li class="nav-right"><a href="index.html#signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <div class="page-title-block">
+      <p class="section-label">project:wyvern — Forums</p>
+      <h1>Discussion Boards</h1>
+      <p>Faction-specific and general channels for political coordination, intelligence review, and internal affairs.</p>
+    </div>
+
+    <div class="forum-toolbar">
+      <input type="search" placeholder="Search threads…" />
+      <a href="#" class="btn btn-filled">+ New Thread</a>
+    </div>
+
+    <!-- GENERAL -->
+    <div class="forum-categories">
+
+      <div class="forum-category">
+        <div class="category-header">
+          <h3>General — Open Network</h3>
+          <span class="cat-faction">All Clearances</span>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Welcome to Project Wyvern — Read Before Posting</a>
+            <span class="thread-meta">Posted by Command · Pinned</span>
+          </div>
+          <div class="thread-stats">
+            <strong>—</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Faction Selection Guide: Which Division is Right for You?</a>
+            <span class="thread-meta">Posted by Command · General</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Network Rules & Code of Conduct</a>
+            <span class="thread-meta">Posted by Enforcement · <span class="thread-locked">Locked</span></span>
+          </div>
+          <div class="thread-stats">
+            <strong>—</strong>
+            <span>replies</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="forum-category">
+        <div class="category-header">
+          <h3>Political Discussion</h3>
+          <span class="cat-faction">All Clearances</span>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Current Political Climate — Open Debate</a>
+            <span class="thread-meta">Posted by General Member · Political</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Proposed Network Legislation — Feedback Requested</a>
+            <span class="thread-meta">Posted by Command · Policy</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="forum-category">
+        <div class="category-header">
+          <h3>Intelligence — F-03</h3>
+          <span class="cat-faction">Clearance Required</span>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">[CLASSIFIED] Briefing File 001 — Network Threat Assessment</a>
+            <span class="thread-meta">Posted by Intelligence · <span class="thread-locked">Restricted</span></span>
+          </div>
+          <div class="thread-stats">
+            <strong>—</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Open-Source Intelligence Sharing Thread</a>
+            <span class="thread-meta">Posted by Intelligence · Ongoing</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="forum-category">
+        <div class="category-header">
+          <h3>Command Announcements</h3>
+          <span class="cat-faction">Command — F-06</span>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Network Expansion Plan — Phase One</a>
+            <span class="thread-meta">Posted by Command · Announcement</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Faction Leadership Appointments — Open Positions</a>
+            <span class="thread-meta">Posted by Command · Recruitment</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="forum-category">
+        <div class="category-header">
+          <h3>Ground / Aid / Energy / Worker</h3>
+          <span class="cat-faction">Operational Factions</span>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Field Operations Discussion — Ground F-01</a>
+            <span class="thread-meta">Posted by Ground · Operational</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Resource & Aid Coordination Thread — Aid F-02</a>
+            <span class="thread-meta">Posted by Aid · Logistics</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+        <div class="forum-thread">
+          <div>
+            <a href="#" class="thread-title">Infrastructure Status Reports — Energy F-04</a>
+            <span class="thread-meta">Posted by Energy · Status</span>
+          </div>
+          <div class="thread-stats">
+            <strong>0</strong>
+            <span>replies</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="forum.html">Forums</a></li>
+          <li><a href="chats.html">Chats</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Factions</h4>
+        <ul>
+          <li><a href="#">Ground (F-01)</a></li>
+          <li><a href="#">Aid (F-02)</a></li>
+          <li><a href="#">Intelligence (F-03)</a></li>
+          <li><a href="#">Energy (F-04)</a></li>
+          <li><a href="#">Worker (F-05)</a></li>
+          <li><a href="#">Command (F-06)</a></li>
+          <li><a href="#">Enforcement (F-07)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@projectwyvern.net">contact@projectwyvern.net</a></li>
+          <li><a href="mailto:command@projectwyvern.net">command@projectwyvern.net</a></li>
+          <li><a href="mailto:intel@projectwyvern.net">intel@projectwyvern.net</a></li>
+          <li><a href="index.html#signup">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>project:wyvern &nbsp;—&nbsp; All communications monitored. Unauthorized access prohibited.</p>
+      <p>© 2026 Project Wyvern Network</p>
+    </div>
+  </footer>
+
+</body>
+</html>

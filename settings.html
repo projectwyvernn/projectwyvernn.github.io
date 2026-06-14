@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — Project Wyvern</title>
+  <link rel="icon" type="image/png" href="wyvern.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .settings-nav {
+      border: 1px solid var(--black);
+      position: sticky;
+      top: 24px;
+    }
+
+    .settings-nav-label {
+      padding: 10px 16px;
+      background: var(--accent-bg);
+      border-bottom: 1px solid var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .settings-nav a {
+      display: block;
+      padding: 11px 16px;
+      font-size: 13px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--black);
+      border-bottom: 1px solid var(--light-rule);
+      transition: background 0.12s;
+    }
+
+    .settings-nav a:last-child {
+      border-bottom: none;
+    }
+
+    .settings-nav a:hover,
+    .settings-nav a.active {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* Panels */
+    .settings-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .settings-section {
+      padding: 32px 0;
+      border-bottom: 1px solid var(--light-rule);
+    }
+
+    .settings-section:last-child {
+      border-bottom: none;
+    }
+
+    .settings-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .settings-section > p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .field-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      border: 1.5px solid var(--black);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      background: var(--white);
+      width: 100%;
+    }
+
+    .field-group input:disabled,
+    .field-group select:disabled {
+      background: var(--accent-bg);
+      color: var(--muted);
+      cursor: not-allowed;
+      border-color: var(--light-rule);
+    }
+
+    .field-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .field-group select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--light-rule);
+    }
+
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-info h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .toggle-info p {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .toggle-switch {
+      width: 40px;
+      height: 22px;
+      border: 1.5px solid var(--black);
+      background: var(--white);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .toggle-switch.on {
+      background: var(--black);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      background: var(--black);
+      transition: transform 0.15s;
+    }
+
+    .toggle-switch.on::after {
+      background: var(--white);
+      transform: translateX(18px);
+    }
+
+    .danger-zone {
+      border: 1.5px solid var(--black);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .danger-zone p {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 360px;
+    }
+
+    .auth-notice-bar {
+      background: var(--accent-bg);
+      border: 1px solid var(--black);
+      padding: 14px 20px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .auth-notice-bar p {
+      font-size: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 700px) {
+      .settings-layout { grid-template-columns: 1fr; }
+      .settings-nav { position: static; }
+      .field-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="wyvern.png" alt="Wyvern Emblem" class="logo" />
+        <img src="wyverntext.png" alt="Project Wyvern" class="wordmark" />
+      </div>
+    </div>
+    <div class="faction-bar">
+      <div class="faction-bar-inner">
+        <span class="faction-tag">Ground</span>
+        <span class="faction-tag">Aid</span>
+        <span class="faction-tag">Intelligence</span>
+        <span class="faction-tag">Energy</span>
+        <span class="faction-tag">Worker</span>
+        <span class="faction-tag">Command</span>
+        <span class="faction-tag">Enforcement</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="forum.html">Forums</a></li>
+      <li><a href="chats.html">Chats</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="settings.html" class="active">Settings</a></li>
+      <li class="nav-right"><a href="index.html#signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <div class="page-title-block">
+      <p class="section-label">project:wyvern — Account</p>
+      <h1>Settings</h1>
+      <p>Manage your profile, faction membership, notification preferences, and account security.</p>
+    </div>
+
+    <div class="auth-notice-bar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" stroke="#6b6b6b" stroke-width="1.2"/><path d="M5 7V5C5 3.34 6.34 2 8 2C9.66 2 11 3.34 11 5V7" stroke="#6b6b6b" stroke-width="1.2"/></svg>
+      <p>You are not authenticated. Some settings are locked until you log in or register. &nbsp;<a href="index.html#signup" style="color:var(--black); font-weight:600;">Request access →</a></p>
+    </div>
+
+    <div class="settings-layout">
+
+      <!-- SIDE NAV -->
+      <div class="settings-nav">
+        <div class="settings-nav-label">Settings</div>
+        <a href="#profile" class="active">Profile</a>
+        <a href="#faction">Faction</a>
+        <a href="#notifications">Notifications</a>
+        <a href="#security">Security</a>
+        <a href="#danger">Account</a>
+      </div>
+
+      <!-- PANELS -->
+      <div class="settings-panel">
+
+        <!-- PROFILE -->
+        <div class="settings-section" id="profile">
+          <h2>Profile</h2>
+          <p>Your public identity within the network.</p>
+          <div class="field-row">
+            <div class="field-group">
+              <label>Display Name</label>
+              <input type="text" placeholder="Your callsign or name" disabled />
+            </div>
+            <div class="field-group">
+              <label>Contact Email</label>
+              <input type="email" placeholder="Registered email" disabled />
+            </div>
+          </div>
+          <div class="field-row full">
+            <div class="field-group">
+              <label>Bio</label>
+              <textarea placeholder="Brief description visible to faction members…" disabled></textarea>
+            </div>
+          </div>
+          <button class="btn" disabled style="margin-top:8px;">Save Profile</button>
+        </div>
+
+        <!-- FACTION -->
+        <div class="settings-section" id="faction">
+          <h2>Faction Membership</h2>
+          <p>Your assigned division and clearance level. Faction changes require Command approval.</p>
+          <div class="field-row">
+            <div class="field-group">
+              <label>Primary Faction</label>
+              <select disabled>
+                <option>— Not Assigned —</option>
+                <option>Ground — F-01</option>
+                <option>Aid — F-02</option>
+                <option>Intelligence — F-03</option>
+                <option>Energy — F-04</option>
+                <option>Worker — F-05</option>
+                <option>Command — F-06</option>
+                <option>Enforcement — F-07</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Clearance Level</label>
+              <input type="text" value="Unclassified" disabled />
+            </div>
+          </div>
+          <button class="btn" disabled style="margin-top:8px;">Request Transfer</button>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="settings-section" id="notifications">
+          <h2>Notifications</h2>
+          <p>Control what alerts you receive from the network.</p>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Bulletin Alerts</h4>
+              <p>Receive notifications for new Command bulletins.</p>
+            </div>
+            <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Faction Channel Messages</h4>
+              <p>Notify on new messages in your faction's channel.</p>
+            </div>
+            <div class="toggle-switch on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Forum Replies</h4>
+              <p>Notify when someone replies to your thread.</p>
+            </div>
+            <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Intelligence Alerts</h4>
+              <p>Receive classified bulletins (clearance required).</p>
+            </div>
+            <div class="toggle-switch" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="settings-section" id="security">
+          <h2>Security</h2>
+          <p>Manage your access credentials and authentication.</p>
+          <div class="field-row">
+            <div class="field-group">
+              <label>Current Password</label>
+              <input type="password" placeholder="••••••••" disabled />
+            </div>
+            <div class="field-group">
+              <label>New Password</label>
+              <input type="password" placeholder="••••••••" disabled />
+            </div>
+          </div>
+          <button class="btn" disabled style="margin-top:8px;">Update Password</button>
+        </div>
+
+        <!-- DANGER -->
+        <div class="settings-section" id="danger">
+          <h2>Account</h2>
+          <p style="margin-bottom:0;">Permanent and irreversible account actions.</p>
+          <div class="danger-zone">
+            <div>
+              <p style="font-weight:500; color:var(--black); margin-bottom:4px; font-family:'Space Grotesk',sans-serif; font-size:13px;">Deactivate Account</p>
+              <p>Permanently remove your membership and all associated data from the network. This action cannot be undone.</p>
+            </div>
+            <button class="btn" disabled>Deactivate</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="forum.html">Forums</a></li>
+          <li><a href="chats.html">Chats</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Factions</h4>
+        <ul>
+          <li><a href="#">Ground (F-01)</a></li>
+          <li><a href="#">Aid (F-02)</a></li>
+          <li><a href="#">Intelligence (F-03)</a></li>
+          <li><a href="#">Energy (F-04)</a></li>
+          <li><a href="#">Worker (F-05)</a></li>
+          <li><a href="#">Command (F-06)</a></li>
+          <li><a href="#">Enforcement (F-07)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@projectwyvern.net">contact@projectwyvern.net</a></li>
+          <li><a href="mailto:command@projectwyvern.net">command@projectwyvern.net</a></li>
+          <li><a href="mailto:intel@projectwyvern.net">intel@projectwyvern.net</a></li>
+          <li><a href="index.html#signup">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>project:wyvern &nbsp;—&nbsp; All communications monitored. Unauthorized access prohibited.</p>
+      <p>© 2026 Project Wyvern Network</p>
+    </div>
+  </footer>
+
+</body>
+</html>
