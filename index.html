@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Project:Wyvern</title>
+
+    <!-- Replace favicon.png with your actual favicon file -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --fg: #000000;
+            --border: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .brand {
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        /* Links intentionally left mostly unstyled */
+        a {
+            color: inherit;
+        }
+
+        /* Main */
+
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .hero {
+            border: 1px solid var(--border);
+            padding: 40px;
+            margin-bottom: 32px;
+            min-height: 220px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            padding: 24px;
+            min-height: 180px;
+        }
+
+        /* Footer */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 16px 24px;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-row">
+
+            <div class="brand">
+                <!-- Site Identifier -->
+            </div>
+
+            <nav>
+                <a href="/home.html"></a>
+                <a href="/directory.html"></a>
+                <a href="/records.html"></a>
+                <a href="/etc.html"></a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+
+        <section class="hero">
+            <!-- Primary Content Area -->
+        </section>
+
+        <section class="grid">
+
+            <article class="panel">
+                <!-- Panel A -->
+            </article>
+
+            <article class="panel">
+                <!-- Panel B -->
+            </article>
+
+            <article class="panel">
+                <!-- Panel C -->
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-row">
+
+            <div>
+                <!-- Footer Left -->
+            </div>
+
+            <div>
+                <!-- Footer Right -->
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>
